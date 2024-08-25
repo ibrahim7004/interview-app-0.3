@@ -1,0 +1,104 @@
+Question,Difficulty
+Can you highlight five key capabilities of Salesforce Service Cloud?,Easy
+What do you know about omni-channel in Salesforce?,Easy
+Can you explain the differences between queue-based routing and skill-based routing in Salesforce?,Medium
+"If two users have the same role and profile in Salesforce, will they be able to see each other’s data?",Medium
+How would you establish a one-to-many relationship between two objects in Salesforce?,Easy
+"In Salesforce, can you create a one-to-many relationship using a lookup field?",Medium
+"What is a junction object in Salesforce, and how is it used to create many-to-many relationships?",Easy
+Can you explain the main differences between a lookup relationship and a master-detail relationship in Salesforce?,Medium
+What are the components of a batch class in Salesforce?,Easy
+"What is the trigger framework in Salesforce, and why is it important?",Easy
+"Can you explain the most important aspects of a workflow rule in Salesforce, including the criteria for triggering the workflow and the different available actions?",Easy
+"Is it recommended to create workflow rules directly in production, or should they be created in a sandbox environment first?",Medium
+What are the relationships between Opportunity and Product in Salesforce?,Easy
+Can you explain the role of Price Book Entry and junction objects in this context?,Easy
+"How would you establish a one-to-many relationship between two objects in Salesforce, for example, Object A and Object B?",Easy
+What are the main capabilities of Sales Cloud?,Easy
+What steps should be taken after an Opportunity is marked as closed-won in Salesforce?,Easy
+"What is Salesforce CPQ, and what processes follow after creating orders through CPQ?",Easy
+What are some potential third-party applications that can integrate with Salesforce for managing hardware or software shipments?,Easy
+What clouds have you mostly worked with?,Easy
+How do we calculate the ROI of a lead?,Easy
+Can you define the ROI?,Easy
+Can you explain the role of Marketing Cloud in creating a marketing journey and how it interacts with the campaign object?,Easy
+How are we going to calculate the ROI for a marketing campaign?,Easy
+Which object do we store the patient information in Health Cloud?,Medium
+Why might we need to create custom objects in Health Cloud to store patient information?,Medium
+"If two users have the same role and profile, will they be able to see each other's data?",Medium
+Can you explain why or why not users with the same role and profile might have different data visibility?,Easy
+What is the household data model?,Easy
+"When going for insurance, what type of account is typically used?",Easy
+Who is a personal account in Salesforce?,Medium
+How is a person account added as part of the entire household data model?,Easy
+"On which objects do accounts, contacts, orders, opportunities, and leads primarily reside in Salesforce?",Medium
+What are the benefits of creating a household account in Salesforce?,Easy
+What additional capabilities does a household account provide that a person account does not?,Easy
+How would you set up roles and permissions so that regional managers can see data from their districts but not from other districts?,Easy
+What considerations should be made when defining Organization-Wide Defaults (OWD) to ensure data privacy?,Easy
+How many profiles and roles would you create to ensure that only regional managers and their sales representatives can see their respective data?,Easy
+What is the difference between using profiles and permission sets in Salesforce?,Medium
+How would you handle a situation where multiple sales representatives need to share a similar role and profile setup without compromising data privacy?,Easy
+How can you configure Salesforce roles to minimize the number of roles while still maintaining data privacy and access controls?,Easy
+"In what scenarios would you consider merging sales representative roles under a single regional manager, and what impact would it have on data access?",Easy
+"If two users share the same role and profile, can they see each other's data even if the OWD is set to private?",Medium
+What are the main data model differences when migrating from Sales Cloud to FSI in Salesforce?,Medium
+"When setting up roles and permissions, what Organization-Wide Defaults (OWD) would you use to ensure regional managers can see data from their districts but not from outside their regions?",Easy
+"How many profiles and roles would you create for six sales reps and two regional managers, and why?",Easy
+What is the simplest way to manage data visibility if additional sales reps join a region in the future?,Easy
+What are the different data source types available for FlexCard in Salesforce?,Easy
+What is a remote Apex class?,Easy
+What actions are available in FlexCards?,Easy
+How do you establish a one-to-many relationship between two objects in Salesforce?,Easy
+What is the relationship between opportunity and quote in Salesforce?,Easy
+What is the relationship between opportunity and contract in Salesforce?,Easy
+What are the troubleshooting steps if a FlexCard is not showing up in Salesforce?,Easy
+What are the limitations of OmniStudio in Salesforce?,Easy
+What is the relationship between opportunity and account in Salesforce?,Easy
+Which is the parent and which is the child in the opportunity-account relationship?,Medium
+Can you describe your experience with larger development projects or stories you have worked on as a Salesforce developer?,Medium
+"How do you store credentials securely in Salesforce when making API calls, for instance, to a Google API?",Easy
+"Besides named credentials, what other options are available for storing API credentials in Salesforce?",Easy
+When should you use 'with sharing' and 'without sharing' in Apex classes?,Medium
+"Can you explain the scenarios in which you would use custom metadata, custom settings, or custom labels?",Easy
+Are there specific scenarios where custom labels should be used instead of custom metadata?,Medium
+Can you provide an example where you would prefer using custom settings over custom metadata?,Medium
+Can you describe the various sharing concepts in Salesforce and how they can be extended to communities?,Easy
+What are the different ways to share records other than using sharing rules in Salesforce?,Easy
+Have you encountered manual sharing in Salesforce?,Medium
+"How would you share a specific record, for example, an opportunity, with another user using Apex code?",Easy
+How do sharing settings and rules apply to a community site in Salesforce?,Easy
+"What are Organization-Wide Defaults (OWD), and how do they affect sharing settings for communities?",Easy
+How would you resolve a 101 SOQL query limit exception?,Easy
+What steps would you take to optimize a query that is causing performance issues in Salesforce?,Easy
+"What are the three methods in a batch job in Salesforce, and what is the purpose of each method?",Easy
+"If you built an LWC and it is loading very slowly as reported by QA or business users, what steps would you take to triage and resolve the performance issue?",Easy
+"If an LWC's performance issue is due to a slow query, how would you optimize this query?",Easy
+"Besides optimizing queries, what other strategies can be employed to improve the performance of an LWC that loads only a few records but is still slow?",Easy
+What steps would you take to create a master-detail relationship between Object A and Object B in Salesforce?,Easy
+Is it possible to create a one-to-many relationship using fields other than the master-detail field in Salesforce?,Medium
+How would you establish a many-to-many relationship between Object A and Object B in Salesforce?,Easy
+"What is a junction object, and how is it used to create many-to-many relationships in Salesforce?",Easy
+"When defining roles and permissions, what considerations should be made to ensure that sales representatives can only see their own data and not others' data?",Easy
+How would you set up roles and permissions so that regional managers can see data from their districts but not from other districts?,Easy
+Can you explain the difference between lookup fields and master-detail fields in Salesforce?,Medium
+"How do you handle extended access permissions in Salesforce, and what types are available?",Easy
+"What are Organization-Wide Defaults (OWD) in Salesforce, and how do they affect data access?",Easy
+How can public groups be used to manage data visibility in Salesforce?,Easy
+What is the relationship between Opportunity and Contact in Salesforce?,Easy
+Can you explain the concept of Contact Roles in relation to Opportunities in Salesforce?,Easy
+What security measures would you implement if the requirement states that regional managers should only have visibility into their own districts' data and not others' districts?,Easy
+How would you configure sharing rules or criteria-based sharing rules to manage data visibility in Salesforce?,Easy
+"For example, if you have Object A and Object B, how would you set up this relationship?",Easy
+What steps would you take to create a master-detail relationship between Object A and Object B in Salesforce?,Easy
+Is it possible to create a one-to-many relationship using fields other than the master-detail field in Salesforce?,Medium
+How would you establish a many-to-many relationship between Object A and Object B in Salesforce?,Easy
+"What is a junction object, and how is it used to create many-to-many relationships in Salesforce?",Easy
+"When defining roles and permissions, what considerations should be made to ensure that sales representatives can only see their own data and not others' data?",Easy
+How would you set up roles and permissions so that regional managers can see data from their districts but not from other districts?,Easy
+Can you explain the difference between lookup fields and master-detail fields in Salesforce?,Medium
+"How do you handle extended access permissions in Salesforce, and what types are available?",Easy
+"What are Organization-Wide Defaults (OWD) in Salesforce, and how do they affect data access?",Easy
+How can public groups be used to manage data visibility in Salesforce?,Easy
+What are the different components in a batch class in Salesforce?,Easy
+"After an opportunity is closed, what steps do you follow to handle payment processing, and what systems are involved?",Easy

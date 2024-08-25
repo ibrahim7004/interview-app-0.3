@@ -1,0 +1,125 @@
+body {
+    background: #6a11cb;
+    background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+#root {
+    width: 100vw;
+    height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#root video {
+    outline: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.back-to-dashboard, .start-interview {
+    position: fixed;
+    bottom: 20px;
+}
+
+.back-to-dashboard {
+    left: 20px;
+}
+
+.start-interview {
+    right: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.back-to-dashboard button, .start-interview button {
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+.question-container {
+    position: fixed;
+    bottom: 1.4%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-align: center;
+}
+.end-interview {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.end-interview-controls {
+    display: flex;
+    align-items: center;
+}
+
+.recording-indicator {
+    display: none;
+    background: red;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.end-interview button {
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+    .end-interview {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .end-interview button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .recording-indicator {
+        width: 15px;
+        height: 15px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .back-to-dashboard, .start-interview {
+        bottom: 10px;
+        font-size: 14px;
+    }
+
+    .question-container {
+        padding: 10px;
+        max-width: 95%;
+    }
+}

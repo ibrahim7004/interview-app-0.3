@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meetings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div id="root"></div>
+    <div class="back-to-dashboard">
+        <a href="{{ url_for('dashboard') }}" style="text-decoration: none;">
+            <button>Back to Dashboard</button>
+        </a>
+    </div>
+    <div class="start-interview" id="startInterviewDiv" style="display: none;">
+        <button id="startInterviewBtn">Start Interview</button>
+    </div>
+    <div class="end-interview" id="endInterviewDiv" style="display: none;">
+        <div class="end-interview-controls">
+            <div class="recording-indicator" id="recordingIndicator"></div>
+            <button id="endInterviewBtn">End Interview</button>
+        </div>
+    </div>
+    <div id="interviewEndedDiv" style="display: none; position: fixed; bottom: 10px; right: 20px;">
+        <p style="color: white; font-size: 18px; font-weight: bold;">Interview Ended</p>
+    </div>
+    
+    <div class="question-container" id="questionContainer" style="display: none;">
+        <div id="questionText"></div>
+    </div>
+
+    <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        let currentAudio = null; 
+        let lastScore = 0; 
+        let isCreator = !getUrlParams(window.location.href)['roomID']; 
+    
+        function getUrlParams(url) {
+            let urlStr = url.split('?')[1];
+            const urlSearchParams = new URLSearchParams(urlStr);
+            const result = Object.fromEntries(urlSearchParams.entries());
+            return result;
+        }
+
+        function requestUserJoinApproval(userName) {
+        return new Promise((resolve) => {
+            const approve = confirm(`User "${userName}" wants to join. Do you approve?`);
+            resolve(approve);
+        });
+    }
+    
+        const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
+        const userID = Math.floor(Math.random() * 10000) + "";
+        const userName = "{{ username }}"; 
+        const appID = parseInt("{{ app_id }}", 10); 
+        const serverSecret = "{{ server_secret }}"; 
+        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+        let hasPrinted = false;  
+        let firstUserName = null;
+        let isInterviewActive = false; 
+        const zp = ZegoUIKitPrebuilt.create(kitToken);
+        zp.joinRoom({
+            container: document.querySelector("#root"),
+            sharedLinks: [{
+                name: 'Personal link',
+                url: window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + roomID,
+            }],
+            scenario: {
+                mode: ZegoUIKitPrebuilt.VideoConference,
+            },
+            turnOnMicrophoneWhenJoining: false,
+            turnOnCameraWhenJoining: false,
+            showMyCameraToggleButton: true,
+            showMyMicrophoneToggleButton: true,
+            showAudioVideoSettingsButton: true,
+            showScreenSharingButton: true,
+            showTextChat: true,
+            showUserList: true,
+            maxUsers: 2,
+            layout: "Auto",
+            showLayoutButton: false,
+            onUserJoin: function(userList) {
+                
+                if (!isCreator) {
+                    document.getElementById("startInterviewDiv").style.display = 'block';
+                }
+            },
+
+            onUserAvatarSetter: (userList) => {
+                if (userList.length > 0 && firstUserName === null) {
+        const firstUser = userList[0];
+        firstUserName = firstUser.userName;  
+    }
+},
+
+            onLeaveRoom: function() {
+                
+                finalizeInterview();
+                document.getElementById("interviewEndedDiv").style.display = 'none';
+            }
+        });
+    
+        document.getElementById("startInterviewBtn").onclick = function() {
+            
+            startInterview();
+        };
+    
+        document.getElementById("endInterviewBtn").onclick = function() {
+            
+            finalizeInterview();
+            // document.getElementById("startInterviewDiv").style.display = 'block';
+        };
+    
+        let totalScore = 0; 
+
+        function startInterview() {
+    isInterviewActive = true;
+    loadQuestions();
+    document.getElementById("startInterviewDiv").style.display = 'none';
+    document.getElementById("endInterviewDiv").style.display = 'block';
+}
+
+function loadQuestions() {
+            Papa.parse('/static/new_data2.csv', {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    
+                    const questions = results.data
+                        .filter(row => row.Question && row.Difficulty)  
+                        .map(row => ({ 
+                            Question: row.Question.trim(), 
+                            Difficulty: row.Difficulty.trim() 
+                        }));
+    
+                    
+                    shuffleArray(questions);
+    
+                    
+                    startAskingQuestions(questions);
+                },
+                error: function(error) {
+                    console.error("Error loading CSV:", error);
+                }
+            });
+        }
+    
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+function startAskingQuestions(questions) {
+    let currentQuestionIndex = 0;
+    const questionContainer = document.getElementById("questionContainer");
+    const questionText = document.getElementById("questionText");
+    const recordingIndicator = document.getElementById("recordingIndicator");
+
+    questionContainer.style.display = 'block';
+
+    function getNextQuestion() {
+        
+        let filteredQuestions = [];
+    
+    if (lastScore < 5) {
+        filteredQuestions = questions.filter(q => q.Difficulty === 'Easy');
+    } else if (lastScore >= 5 && lastScore < 8) {
+        filteredQuestions = questions.filter(q => q.Difficulty === 'Medium');
+    } else {
+        filteredQuestions = questions.filter(q => q.Difficulty === 'Hard');
+    }
+
+    
+    if (filteredQuestions.length > 0) {
+        return filteredQuestions[currentQuestionIndex % filteredQuestions.length];
+    } else {
+        
+        return questions[currentQuestionIndex];
+    }
+}
+
+function showNextQuestion() {
+    if (!isInterviewActive) return; 
+    
+    if (currentQuestionIndex < questions.length) {
+        const question = getNextQuestion();
+        if (question && question.Question) {
+            questionText.innerText = question.Question;
+            speakQuestion(question.Question);
+            currentQuestionIndex++;
+        } else {
+            console.error("No valid question found.");
+            finalizeInterview();
+        }
+    } else {
+        finalizeInterview();
+    }
+}
+
+function startRecording() {
+    if (!isInterviewActive) return;
+    
+    const isMicMuted = zp.express.isMicrophoneMuted(userID);
+
+    if (isMicMuted) {
+        alert("Please unmute your microphone to start the recording.");
+    }
+
+    recordingIndicator.style.display = 'block';
+    const questionTextValue = questionText.innerText;
+
+    fetch('/start-recording', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        recordingIndicator.style.display = 'none';
+        const transcript = data.transcription;
+
+        fetch('/score-answer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                'question': questionTextValue,
+                'answer': transcript
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!isInterviewActive) return;
+            totalScore += data.score; 
+            showNextQuestion(); 
+        });
+    })
+    .catch(error => {
+        recordingIndicator.style.display = 'none';
+        console.error("Error recording audio:", error);
+    });
+}
+
+
+    function speakQuestion(text) {
+        if (!text.trim()) {
+            console.error("Error: Question text is empty.");
+            startRecording();
+            return;
+        }
+
+        fetch('/generate-tts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                'text': text
+            })
+        })
+        .then(response => response.blob())
+        .then(blob => {
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+            const audioUrl = URL.createObjectURL(blob);
+            currentAudio = new Audio(audioUrl);
+            currentAudio.onended = function() {
+                startRecording();
+            };
+            currentAudio.play();
+        })
+        .catch(error => {
+            console.error("Error playing audio:", error);
+        });
+    }
+
+    showNextQuestion(); 
+}
+
+function finalizeInterview() {
+    isInterviewActive = false;
+    if (currentAudio) {
+        currentAudio.pause();
+    }
+    
+    document.getElementById("endInterviewDiv").style.display = 'none';
+    document.getElementById("questionContainer").style.display = 'none';
+    document.getElementById("recordingIndicator").style.display = 'none';
+
+    document.getElementById("startInterviewDiv").style.display = 'none';
+    document.getElementById("interviewEndedDiv").style.display = 'block';
+
+        alert('Please wait while we store the your score.');
+    
+
+    fetch('/finalize-interview', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            'username': firstUserName,
+            'total_score': totalScore
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+
+       
+            alert('Score has been successfully stored. You can now close the app.');
+        
+    })
+    .catch(error => {
+        console.error("Error finalizing interview:", error);
+        if (isCreator) {
+            alert('An error occurred while storing the score. Please try again.');
+        }
+    });
+}
+
+
+    </script>
+    
+    
+</body>
+
+</html>
+
+
