@@ -25,7 +25,6 @@ bitarray==2.9.2
 bleach==6.0.0
 blinker==1.6.2
 blis==0.7.9
-GDAL==3.4.1
 branca==0.7.0
 Brotli==1.0.9
 bs4==0.0.1
